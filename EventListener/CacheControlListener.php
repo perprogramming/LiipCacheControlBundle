@@ -81,6 +81,9 @@ class CacheControlListener
                 $controls = array_intersect_key($options['controls'], $this->supportedHeaders);
                 $extraControls = array_diff_key($options['controls'], $controls);
 
+	        // Remove no-cache Cache-Control flag, in case it has been set by defaults
+                $response->headers->removeCacheControlDirective("no-cache");
+
                 //set supported headers
                 if (!empty($controls)) {
                     $response->setCache($this->prepareControls($controls));
